@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import prisma from '@/lib/db';
 import { validateUser } from '@/app/middleware/validation';
-
 
 const registerUser = async (req, res) => {
   // Use the validateUser middleware for validation
@@ -17,7 +17,12 @@ const registerUser = async (req, res) => {
         const user = await prisma.user.create({
           data: { name, email, password: hashedPassword },
         });
-        res.status(201).json(user);
+
+        // Generate JWT token
+        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' });
+
+        // Send the token in the response
+        res.status(201).json({ token }); // Send the token after successful registration
       } catch (error) {
         // Handle potential unique constraint violations
         if (error.code === 'P2002') { // Prisma unique constraint error
