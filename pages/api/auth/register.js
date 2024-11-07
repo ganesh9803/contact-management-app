@@ -4,7 +4,6 @@ import prisma from '@/lib/db';
 import { validateUser } from '@/app/middleware/validation';
 
 const registerUser = async (req, res) => {
-  // Use the validateUser middleware for validation
   await validateUser(req, res, async () => {
     if (req.method === 'POST') {
       const { name, email, password } = req.body;
@@ -19,15 +18,22 @@ const registerUser = async (req, res) => {
         });
 
         // Generate JWT token
-        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' });
+        let token;
+        try {
+          token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' });
+        } catch (tokenError) {
+          console.error("Error generating JWT:", tokenError);
+          return res.status(500).json({ error: 'Token generation failed' });
+        }
 
         // Send the token in the response
-        res.status(201).json({ token }); // Send the token after successful registration
+        res.status(201).json({ token });
       } catch (error) {
-        // Handle potential unique constraint violations
-        if (error.code === 'P2002') { // Prisma unique constraint error
+        // Handle unique constraint violations
+        if (error.code === 'P2002') {
           return res.status(400).json({ message: 'Email already exists' });
         }
+        console.error("Error during registration:", error);
         res.status(500).json({ error: 'User registration failed' });
       }
     } else {
