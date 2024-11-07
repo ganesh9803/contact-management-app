@@ -11,7 +11,7 @@ const ContactList = () => {
     const [editMode, setEditMode] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1); // State for current page
-    const itemsPerPage = 10; // Number of items to display per page
+    const itemsPerPage = 5; // Number of items to display per page
 
     useEffect(() => {
         fetchContacts();
