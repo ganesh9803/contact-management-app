@@ -1,6 +1,6 @@
 // src/app/dashboard/page.js
-import ContactForm from '../components/ContactForm';
 import Navbar from '../components/Navbar';
+import ContactForm from '../ContactForm/ContactForm';
 
 
 
