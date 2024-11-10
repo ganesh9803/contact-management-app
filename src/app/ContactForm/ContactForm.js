@@ -60,7 +60,7 @@ const ContactForm = () => {
 
   return (
     <div className="max-w-md lg:max-w-lg mx-auto p-6 sm:p-8 bg-white rounded-lg shadow-md mt-5">
-      <h2 className="text-xl font-bold mb-4 text-center sm:text-left">Add New Contact</h2>
+      <h2 className="text-xl font-bold mb-4 text-center sm:text-left text-black">Add New Contact</h2>
       {error && <p className="text-red-500 mb-4 text-center sm:text-left">{error}</p>}
       {successMessage && <p className="text-green-500 mb-4 text-center sm:text-left">{successMessage}</p>}
       
