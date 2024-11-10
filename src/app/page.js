@@ -46,19 +46,15 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4 md:px-0">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 py-10 px-4 md:px-0">
       <div className="w-full max-w-sm sm:max-w-md">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-6 text-black">Contacts Management System</h2>
-        <div className="text-center mb-4">
-          <h2 className="text-xl md:text-2xl font-semibold text-black">{isLogin ? 'Login' : 'Register'}</h2>
-          <button
-            className="mt-2 px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition duration-200"
-            onClick={() => setIsLogin(!isLogin)}
-          >
-            {isLogin ? 'Switch to Register' : 'Switch to Login'}
-          </button>
-        </div>
-
+        <h1 className="text-4xl font-bold text-center text-blue-600 mb-6">
+          Contacts Management System
+        </h1>
+        <p className="text-lg text-center mb-8">
+          {isLogin ? 'Login to manage your contacts' : 'Create a new account to get started'}
+        </p>
+        
         <form
           className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 text-gray-800"
           onSubmit={isLogin ? handleLogin : handleRegister}
@@ -74,7 +70,7 @@ export default function AuthPage() {
             />
           )}
           <input
-            className="mb-4 w-full px-3 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
+            className="mb-4 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -99,6 +95,15 @@ export default function AuthPage() {
             {isLogin ? 'Login' : 'Register'}
           </button>
         </form>
+
+        <div className="text-center">
+          <button
+            className="mt-2 px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition duration-200"
+            onClick={() => setIsLogin(!isLogin)}
+          >
+            {isLogin ? 'Switch to Register' : 'Switch to Login'}
+          </button>
+        </div>
       </div>
     </div>
   );
