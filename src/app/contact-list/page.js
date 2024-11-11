@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Navbar from '../components/Navbar';
 
 const ContactList = () => {
     const [contacts, setContacts] = useState([]);
@@ -25,7 +24,7 @@ const ContactList = () => {
         }
 
         try {
-            const response = await axios.get('/api/contacts', {
+            const response = await axios.get('/api/contact-list', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -113,7 +112,6 @@ const ContactList = () => {
 
     return (
         <div>
-            <Navbar />
             <div className="max-w-7xl mx-auto bg-white rounded-lg shadow-md p-4 sm:p-6 mt-6">
                 <h1 className="text-2xl font-bold my-4">Contact List</h1>
                 {error && <p className="text-red-500">{error}</p>}

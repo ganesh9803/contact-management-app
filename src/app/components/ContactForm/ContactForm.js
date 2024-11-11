@@ -35,7 +35,7 @@ const ContactForm = () => {
 
     try {
       await axios.post(
-        '/api/contacts',
+        '/api/contact-list',
         [contact], // Send the contact as an array
         { headers: { Authorization: `Bearer ${token}` } }
       );

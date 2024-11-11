@@ -3,7 +3,6 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import Navbar from '../components/Navbar';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -40,7 +39,6 @@ const Profile = () => {
 
   return (
     <div>
-      <Navbar />
       <div className="max-w-3xl lg:max-w-7xl mx-auto bg-white rounded-lg shadow-md p-4 sm:p-6 lg:p-8 mt-6">
         <h1 className="text-2xl sm:text-3xl font-bold mb-4 text-center lg:text-left">Profile</h1>
         <div className="bg-gray-50 p-4 rounded shadow-md space-y-3 text-center lg:text-left">

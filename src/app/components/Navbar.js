@@ -1,22 +1,12 @@
-"use client"; // Add this line to mark the component as a client compone
+"use client"; // Mark this component as a client component
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import { usePathname } from 'next/navigation'; // Use usePathname from next/navigation
+import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
-  const pathname = usePathname(); // Get the current pathname
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to handle mobile menu toggle
-
-  // Effect to handle the visibility of the hamburger menu based on the active route
-  useEffect(() => {
-    // Hide the hamburger menu if the route is either /dashboard, /profile, or /contactList
-    if (pathname === '/dashboard' || pathname === '/profile' || pathname === '/contactList') {
-      setIsMenuOpen(false);
-    } else {
-      setIsMenuOpen(true);
-    }
-  }, [pathname]);
+  const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -53,7 +43,7 @@ export default function Navbar() {
         </button>
 
         {/* Links (Hidden on Mobile by default, shown in a menu) */}
-        <div className={`md:flex md:items-center md:space-x-4 ${isMenuOpen ? "block" : "hidden"}`}>
+        <div className={`md:flex md:items-center md:space-x-4 ${isMenuOpen ? 'block' : 'hidden'}`}>
           <Link
             href="/dashboard"
             className={`block mt-4 md:mt-0 text-white hover:text-gray-300 ${pathname === '/dashboard' ? 'text-gray-300' : ''}`}
@@ -67,8 +57,8 @@ export default function Navbar() {
             Profile
           </Link>
           <Link
-            href="/contactList"
-            className={`block mt-4 md:mt-0 text-white hover:text-gray-300 ${pathname === '/contactList' ? 'text-gray-300' : ''}`}
+            href="/contact-list"
+            className={`block mt-4 md:mt-0 text-white hover:text-gray-300 ${pathname === '/contact-list' ? 'text-gray-300' : ''}`}
           >
             Contact List
           </Link>
