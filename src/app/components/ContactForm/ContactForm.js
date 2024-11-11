@@ -40,7 +40,6 @@ const ContactForm = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // Reset the form
       setContact({ name: '', email: '', phone: '', address: '', timezone: '' });
       setSuccessMessage('Contact added successfully!');
     } catch (error) {
@@ -59,10 +58,10 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="max-w-md lg:max-w-lg mx-auto p-6 sm:p-8 bg-white rounded-lg shadow-md mt-5">
-      <h2 className="text-xl font-bold mb-4 text-center sm:text-left text-black">Add New Contact</h2>
-      {error && <p className="text-red-500 mb-4 text-center sm:text-left">{error}</p>}
-      {successMessage && <p className="text-green-500 mb-4 text-center sm:text-left">{successMessage}</p>}
+    <div className="w-full max-w-md mx-auto p-4 sm:p-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-xl font-bold mb-4 text-center text-black">Add New Contact</h2>
+      {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
+      {successMessage && <p className="text-green-500 mb-4 text-center">{successMessage}</p>}
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
