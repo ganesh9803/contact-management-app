@@ -51,6 +51,7 @@ export default function Navbar() {
           <Link onClick={() => setVisible(false)} className='py-2 pl-6 border' href='/dashboard'>Dashboard</Link>
           <Link onClick={() => setVisible(false)} className='py-2 pl-6 border' href='/profile'>Profile</Link>
           <Link onClick={() => setVisible(false)} className='py-2 pl-6 border' href='/contact-list'>Contact List</Link>
+          <Link onClick={() => setVisible(false)} className='py-2 pl-6 border' href='/'>Logout</Link>
         </div>
       </div>
     </div>
