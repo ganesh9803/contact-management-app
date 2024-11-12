@@ -1,3 +1,4 @@
+// src/pages/ContactList.js
 "use client"; // Mark this as a client-side component
 
 import React, { useEffect, useState } from 'react';
@@ -9,8 +10,8 @@ const ContactList = () => {
     const [selectedContact, setSelectedContact] = useState(null);
     const [editMode, setEditMode] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
-    const [currentPage, setCurrentPage] = useState(1); // State for current page
-    const itemsPerPage = 5; // Number of items to display per page
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
 
     useEffect(() => {
         fetchContacts();
@@ -26,7 +27,7 @@ const ContactList = () => {
         try {
             const response = await axios.get('/api/contact-list', {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
             });
@@ -49,9 +50,9 @@ const ContactList = () => {
         }
 
         try {
-            const response = await axios.put(`/api/contacts`, [selectedContact], {
+            const response = await axios.put(`/api/contact-list`, [selectedContact], {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
             });
@@ -74,9 +75,9 @@ const ContactList = () => {
         }
 
         try {
-            const response = await axios.delete(`/api/contacts`, {
+            const response = await axios.delete(`/api/contact-list`, {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
                 data: { id },
@@ -95,7 +96,7 @@ const ContactList = () => {
         contact.email.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    // Calculate pagination
+    // Pagination logic
     const indexOfLastContact = currentPage * itemsPerPage;
     const indexOfFirstContact = indexOfLastContact - itemsPerPage;
     const currentContacts = filteredContacts.slice(indexOfFirstContact, indexOfLastContact);
@@ -111,10 +112,11 @@ const ContactList = () => {
     };
 
     return (
-        <div>
-            <div className="max-w-7xl mx-auto bg-white rounded-lg shadow-md p-4 sm:p-6 mt-6">
-                <h1 className="text-2xl font-bold my-4">Contact List</h1>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen">
+            <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mt-6">
+                <h1 className="text-2xl font-bold my-4 text-center sm:text-left">Contact List</h1>
                 {error && <p className="text-red-500">{error}</p>}
+                
                 <input
                     type="text"
                     placeholder="Search by name or email"
@@ -122,8 +124,9 @@ const ContactList = () => {
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="border p-2 my-2 w-full rounded"
                 />
+                
                 <div className="overflow-x-auto">
-                    <table className="min-w-full bg-white border border-gray-300">
+                    <table className="min-w-full bg-white border border-gray-300 mt-4">
                         <thead>
                             <tr>
                                 <th className="border-b p-2 text-center text-sm md:text-base">Name</th>
@@ -139,10 +142,16 @@ const ContactList = () => {
                                     <td className="border-b p-2 text-center text-sm">{contact.email}</td>
                                     <td className="border-b p-2 text-center text-sm">{contact.phone}</td>
                                     <td className="border-b p-2 text-center">
-                                        <button onClick={() => handleEdit(contact)} className="text-blue-500 hover:underline text-sm md:text-base">
+                                        <button
+                                            onClick={() => handleEdit(contact)}
+                                            className="text-blue-500 hover:underline text-sm md:text-base"
+                                        >
                                             Edit
                                         </button>
-                                        <button onClick={() => handleDelete(contact.id)} className="text-red-500 hover:underline ml-4 text-sm md:text-base">
+                                        <button
+                                            onClick={() => handleDelete(contact.id)}
+                                            className="text-red-500 hover:underline ml-4 text-sm md:text-base"
+                                        >
                                             Delete
                                         </button>
                                     </td>
@@ -151,9 +160,10 @@ const ContactList = () => {
                         </tbody>
                     </table>
                 </div>
+
                 {editMode && (
-                    <div>
-                        <h2 className="text-xl font-semibold mt-4">Edit Contact</h2>
+                    <div className="mt-6">
+                        <h2 className="text-xl font-semibold text-center sm:text-left">Edit Contact</h2>
                         <input
                             type="text"
                             value={selectedContact.name}
@@ -175,24 +185,24 @@ const ContactList = () => {
                             placeholder="Phone"
                             className="border p-2 my-2 w-full rounded"
                         />
-                        <div className="flex space-x-4 mt-2">
-                            <button onClick={handleUpdate} className="bg-blue-500 text-white p-2 my-2 rounded">
+                        <div className="flex space-x-4 mt-4">
+                            <button onClick={handleUpdate} className="bg-blue-500 text-white px-4 py-2 rounded">
                                 Update
                             </button>
-                            <button onClick={closeEditMode} className="bg-gray-500 text-white p-2 my-2 rounded">
+                            <button onClick={closeEditMode} className="bg-gray-500 text-white px-4 py-2 rounded">
                                 Close
                             </button>
                         </div>
                     </div>
                 )}
-                {/* Pagination Controls */}
+
                 {totalPages > 1 && (
-                    <div className="flex justify-center mt-4">
+                    <div className="flex justify-center mt-4 space-x-2">
                         {Array.from({ length: totalPages }, (_, index) => (
                             <button
                                 key={index + 1}
                                 onClick={() => handlePageChange(index + 1)}
-                                className={`mx-1 px-2 py-1 md:px-4 md:py-2 border rounded ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                                className={`px-3 py-1 border rounded ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
                             >
                                 {index + 1}
                             </button>

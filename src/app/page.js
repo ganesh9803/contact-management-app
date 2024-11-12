@@ -1,8 +1,8 @@
 'use client'; // Mark the file as a Client Component
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/navigation'; // Use 'next/navigation' for Next.js 13+
+import { useRouter } from 'next/navigation';
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -11,6 +11,13 @@ export default function AuthPage() {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      router.push('/dashboard'); // Redirect to dashboard if token exists
+    }
+  }, [router]);
 
   const handleLogin = async (e) => {
     e.preventDefault();

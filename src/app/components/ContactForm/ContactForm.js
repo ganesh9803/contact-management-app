@@ -26,36 +26,36 @@ const ContactForm = () => {
     e.preventDefault();
     setError(null);
     setSuccessMessage('');
-
+  
     const token = localStorage.getItem('token');
     if (!token) {
       setError('You must be logged in to add contacts.');
       return;
     }
-
+  
     try {
-      await axios.post(
+      const response = await axios.post(
         '/api/contact-list',
         [contact], // Send the contact as an array
         { headers: { Authorization: `Bearer ${token}` } }
       );
-
+  
       setContact({ name: '', email: '', phone: '', address: '', timezone: '' });
       setSuccessMessage('Contact added successfully!');
     } catch (error) {
+      console.error('Error details:', error);  // Log the full error object
       console.error('Failed to add contact:', error.response?.data || error.message);
-
+  
       if (error.response) {
-        if (error.response.data?.error === 'Email already exists. Please use a different email.') {
-          setError('Email already exists. Please use a different email.');
-        } else {
-          setError(error.response.data?.error || 'Failed to add contact');
-        }
+        setError(error.response.data?.error || 'Failed to add contact');
       } else {
         setError('An error occurred. Please try again later.');
       }
     }
   };
+  
+
+  
 
   return (
     <div className="w-full max-w-md mx-auto p-4 sm:p-6 bg-white rounded-lg shadow-md">
@@ -63,7 +63,7 @@ const ContactForm = () => {
       {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
       {successMessage && <p className="text-green-500 mb-4 text-center">{successMessage}</p>}
       
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-1">
         <div>
           <label className="block text-gray-700">Name:</label>
           <input
@@ -72,7 +72,7 @@ const ContactForm = () => {
             value={contact.name}
             onChange={handleChange}
             required
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+            className="mb-4 w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
           />
         </div>
         <div>
@@ -83,7 +83,7 @@ const ContactForm = () => {
             value={contact.email}
             onChange={handleChange}
             required
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+            className="mb-4 w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
           />
         </div>
         <div>
@@ -94,7 +94,7 @@ const ContactForm = () => {
             value={contact.phone}
             onChange={handleChange}
             required
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+            className="mb-4 w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
           />
         </div>
         <div>
@@ -104,7 +104,7 @@ const ContactForm = () => {
             name="address"
             value={contact.address}
             onChange={handleChange}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+            className="mb-4 w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
           />
         </div>
         <div>
@@ -114,7 +114,7 @@ const ContactForm = () => {
             name="timezone"
             value={contact.timezone}
             onChange={handleChange}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+            className="mb-4 w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
           />
         </div>
         <button

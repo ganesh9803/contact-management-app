@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { HiMenu, HiArrowLeft } from 'react-icons/hi'; // Import icons from react-icons
+import { HiMenu, HiArrowLeft } from 'react-icons/hi';
 
 export default function Navbar() {
   const [visible, setVisible] = useState(false); // State to manage mobile menu visibility
@@ -42,7 +42,7 @@ export default function Navbar() {
       </div>
 
       {/* Sidebar for Mobile */}
-      <div className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all duration-300 ${visible ? 'w-full' : 'w-0'}`}>
+      <div className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all duration-300 ${visible ? 'w-full' : 'w-0'} sm:hidden`}>
         <div className='flex flex-col text-gray-600'>
           <div onClick={() => setVisible(false)} className='flex items-center gap-4 p-3 cursor-pointer'>
             <HiArrowLeft className='h-5 w-5' />

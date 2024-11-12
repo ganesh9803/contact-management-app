@@ -10,19 +10,20 @@ const handler = async (req, res) => {
     case 'POST': {
       const contacts = req.body; // Expect an array of contacts
 
-      if (!Array.isArray(contacts) || contacts.length === 0) {
+      if (!contacts || !Array.isArray(contacts) || contacts.length === 0) {
         return res.status(400).json({ error: 'Invalid input: must be a non-empty array of contacts' });
       }
 
-      const emailExists = await prisma.contact.findFirst({
-        where: { email: contacts[0].email, userId: req.user.id }
-      });
-
-      if (emailExists) {
-        return res.status(400).json({ error: 'Email already exists. Please use a different email.' });
-      }
-
+      // Other checks can be added here
       try {
+        const emailExists = await prisma.contact.findFirst({
+          where: { email: contacts[0].email, userId: req.user.id }
+        });
+
+        if (emailExists) {
+          return res.status(400).json({ error: 'Email already exists. Please use a different email.' });
+        }
+
         const newContacts = await prisma.contact.createMany({
           data: contacts.map(contact => ({
             ...contact,
@@ -36,7 +37,7 @@ const handler = async (req, res) => {
       }
       break;
     }
-
+    
     case 'PUT': {
       const contacts = req.body;
 

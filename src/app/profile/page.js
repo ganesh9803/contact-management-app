@@ -30,21 +30,33 @@ const Profile = () => {
   }, []);
 
   if (loading) {
-    return <div className="flex justify-center items-center h-screen">Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen text-xl sm:text-2xl">
+        Loading...
+      </div>
+    );
   }
 
   if (!user) {
-    return <div className="flex justify-center items-center h-screen">No user data available.</div>;
+    return (
+      <div className="flex justify-center items-center h-screen text-xl sm:text-2xl">
+        No user data available.
+      </div>
+    );
   }
 
   return (
-    <div>
-      <div className="max-w-3xl lg:max-w-7xl mx-auto bg-white rounded-lg shadow-md p-4 sm:p-6 lg:p-8 mt-6">
-        <h1 className="text-2xl sm:text-3xl font-bold mb-4 text-center lg:text-left">Profile</h1>
-        <div className="bg-gray-50 p-4 rounded shadow-md space-y-3 text-center lg:text-left">
-          <p className="text-lg sm:text-xl"><strong>Name:</strong> {user.name}</p>
-          <p className="text-lg sm:text-xl"><strong>Email:</strong> {user.email}</p>
-          {/* Add more user details as necessary */}
+    <div className="flex justify-center items-center min-h-screen px-4 sm:px-6 lg:px-8 ">
+      <div className="max-w-lg w-full bg-white rounded-lg shadow-lg p-6 sm:p-8">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">Profile</h1>
+        <div className="bg-gray-50 p-4 rounded-md shadow space-y-3 text-center sm:text-left">
+          <p className="text-lg sm:text-xl">
+            <strong>Name:</strong> {user.name}
+          </p>
+          <p className="text-lg sm:text-xl">
+            <strong>Email:</strong> {user.email}
+          </p>
+          {/* Additional user details can be added here */}
         </div>
       </div>
     </div>
