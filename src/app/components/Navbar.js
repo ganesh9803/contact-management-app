@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { HiMenu, HiArrowLeft } from 'react-icons/hi';
+import { AiOutlineDownload, AiOutlineUpload } from 'react-icons/ai'; // Add icons for upload and download
 
 export default function Navbar() {
   const [visible, setVisible] = useState(false); // State to manage mobile menu visibility
@@ -15,9 +16,9 @@ export default function Navbar() {
   };
 
   return (
-    <div className="bg-gray-800 flex items-center justify-between py-5 font-medium">
+    <div className="bg-gray-800 flex items-center justify-between py-5 font-medium fixed top-0 left-0 w-full z-50">
       {/* Logo */}
-      <Link href='/'>
+      <Link href='/dashboard'>
         <h1 className='p-2 w-35 text-2xl text-white'>Contact Management</h1>
       </Link>
 
@@ -32,6 +33,11 @@ export default function Navbar() {
         <Link href="/contact-list" className={`flex flex-col items-center gap-1 ${pathname === '/contact-list' ? 'text-white' : ''}`}>
           <p>Contact List</p>
         </Link>
+
+        <Link href="/trash" className={`flex flex-col items-center gap-1 ${pathname === '/trash' ? 'text-white' : ''}`}>
+          <p>Trash</p>
+        </Link>
+        {/* Logout Button */}
         <p onClick={handleLogout} className={`flex flex-col items-center gap-1 cursor-pointer hover:text-red-600 ${pathname === '/' ? 'text-white' : ''}`} >Logout</p>
       </ul>
 
@@ -42,16 +48,18 @@ export default function Navbar() {
       </div>
 
       {/* Sidebar for Mobile */}
-      <div className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all duration-300 ${visible ? 'w-full' : 'w-0'} sm:hidden`}>
-        <div className='flex flex-col text-gray-600'>
+      <div className={`fixed top-0 right-0 bottom-0 bg-gray-800 text-white transition-all duration-300 ${visible ? 'w-64' : 'w-0'} sm:hidden overflow-hidden`}>
+        <div className="flex flex-col">
           <div onClick={() => setVisible(false)} className='flex items-center gap-4 p-3 cursor-pointer'>
             <HiArrowLeft className='h-5 w-5' />
             <p>Back</p>
           </div>
-          <Link onClick={() => setVisible(false)} className='py-2 pl-6 border' href='/dashboard'>Dashboard</Link>
-          <Link onClick={() => setVisible(false)} className='py-2 pl-6 border' href='/profile'>Profile</Link>
-          <Link onClick={() => setVisible(false)} className='py-2 pl-6 border' href='/contact-list'>Contact List</Link>
-          <Link onClick={() => setVisible(false)} className='py-2 pl-6 border' href='/'>Logout</Link>
+          <Link onClick={() => setVisible(false)} className='py-2 pl-6 border-t border-gray-600' href='/dashboard'>Dashboard</Link>
+          <Link onClick={() => setVisible(false)} className='py-2 pl-6 border-t border-gray-600' href='/profile'>Profile</Link>
+          <Link onClick={() => setVisible(false)} className='py-2 pl-6 border-t border-gray-600' href='/contact-list'>Contact List</Link>
+          <Link onClick={() => setVisible(false)} className='py-2 pl-6 border-t border-gray-600' href='/trash'>Trash</Link>
+          {/* Logout Link for Mobile */}
+          <p onClick={() => { handleLogout(); setVisible(false); }} className='py-2 pl-6 border-t border-gray-600 cursor-pointer'>Logout</p>
         </div>
       </div>
     </div>

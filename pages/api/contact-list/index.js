@@ -1,4 +1,4 @@
-
+//pages/api/contact-list/index.js
 import { authMiddleware } from "@/app/middleware/auth";
 import prisma from "@/lib/db"; // Adjust the path to match your project structure
 
@@ -82,19 +82,16 @@ const handler = async (req, res) => {
 
     case 'DELETE': {
       const { id } = req.body;
-
       if (!id) {
         return res.status(400).json({ error: 'Contact ID is required' });
       }
-
       try {
-        const deletedContact = await prisma.contact.update({
+        await prisma.contact.update({
           where: { id },
           data: { isDeleted: true },
         });
-        res.status(200).json({ message: 'Contact deleted successfully', deletedContact });
+        res.status(200).json({ message: 'Contact moved to trash' });
       } catch (error) {
-        console.error('Error deleting contact:', error);
         res.status(500).json({ error: 'Failed to delete contact' });
       }
       break;

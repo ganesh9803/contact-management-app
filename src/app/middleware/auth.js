@@ -1,3 +1,4 @@
+// src/app/middleware/auth.js
 import jwt from 'jsonwebtoken';
 
 export const authMiddleware = (handler) => async (req, res) => {
@@ -6,11 +7,9 @@ export const authMiddleware = (handler) => async (req, res) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = { id: decoded.userId }; 
-    return handler(req, res);
+    req.user = { id: decoded.userId }; // Attach user to request
+    return handler(req, res); // Call the next handler after attaching the user
   } catch (error) {
     res.status(403).json({ message: 'Invalid or expired token' });
   }
 };
-
-

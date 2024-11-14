@@ -47,8 +47,10 @@ export default function AuthPage() {
       const res = await axios.post('/api/auth/register', { name, email, password });
       localStorage.setItem('token', res.data.token);
       setIsLogin(true);
+      router.push('/dashboard');
     } catch (err) {
       setErrorMessage('Registration failed');
+      console.error(err.response?.data);
     }
   };
 

@@ -10,12 +10,12 @@ generator client {
 
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   name      String
-  email     String   @unique
+  email     String     @unique
   password  String
   contacts  Contact[]
-  createdAt DateTime @default(now())
+  createdAt DateTime   @default(now())
 }
 
 model Contact {
@@ -31,3 +31,5 @@ model Contact {
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
 }
+
+

@@ -1,4 +1,3 @@
-// src/pages/ContactList.js
 "use client"; // Mark this as a client-side component
 
 import React, { useEffect, useState } from 'react';
@@ -73,21 +72,15 @@ const ContactList = () => {
             setError('No token found, please log in.');
             return;
         }
-
+      
         try {
-            const response = await axios.delete(`/api/contact-list`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
+            const response = await axios.delete('/api/contact-list', {
+                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
                 data: { id },
             });
-
-            if (response.status === 200) {
-                await fetchContacts();
-            }
+            if (response.status === 200) fetchContacts();
         } catch (error) {
-            setError(error.message || 'Failed to delete contact');
+            setError('Failed to move contact to trash');
         }
     };
 
@@ -126,39 +119,43 @@ const ContactList = () => {
                 />
                 
                 <div className="overflow-x-auto">
-                    <table className="min-w-full bg-white border border-gray-300 mt-4">
-                        <thead>
-                            <tr>
-                                <th className="border-b p-2 text-center text-sm md:text-base">Name</th>
-                                <th className="border-b p-2 text-center text-sm md:text-base">Email</th>
-                                <th className="border-b p-2 text-center text-sm md:text-base">Phone</th>
-                                <th className="border-b p-2 text-center text-sm md:text-base">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {currentContacts.map(contact => (
-                                <tr key={contact.id}>
-                                    <td className="border-b p-2 text-center text-sm">{contact.name}</td>
-                                    <td className="border-b p-2 text-center text-sm">{contact.email}</td>
-                                    <td className="border-b p-2 text-center text-sm">{contact.phone}</td>
-                                    <td className="border-b p-2 text-center">
-                                        <button
-                                            onClick={() => handleEdit(contact)}
-                                            className="text-blue-500 hover:underline text-sm md:text-base"
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            onClick={() => handleDelete(contact.id)}
-                                            className="text-red-500 hover:underline ml-4 text-sm md:text-base"
-                                        >
-                                            Delete
-                                        </button>
-                                    </td>
+                    {filteredContacts.length === 0 ? (
+                        <p className="text-center text-gray-500 mt-6">No contacts available</p>
+                    ) : (
+                        <table className="min-w-full bg-white border border-gray-300 mt-4">
+                            <thead>
+                                <tr>
+                                    <th className="border-b p-2 text-center text-sm md:text-base">Name</th>
+                                    <th className="border-b p-2 text-center text-sm md:text-base">Email</th>
+                                    <th className="border-b p-2 text-center text-sm md:text-base">Phone</th>
+                                    <th className="border-b p-2 text-center text-sm md:text-base">Actions</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {currentContacts.map(contact => (
+                                    <tr key={contact.id}>
+                                        <td className="border-b p-2 text-center text-sm">{contact.name}</td>
+                                        <td className="border-b p-2 text-center text-sm">{contact.email}</td>
+                                        <td className="border-b p-2 text-center text-sm">{contact.phone}</td>
+                                        <td className="border-b p-2 text-center">
+                                            <button
+                                                onClick={() => handleEdit(contact)}
+                                                className="text-blue-500 hover:underline text-sm md:text-base"
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                onClick={() => handleDelete(contact.id)}
+                                                className="text-red-500 hover:underline ml-4 text-sm md:text-base"
+                                            >
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
                 </div>
 
                 {editMode && (
