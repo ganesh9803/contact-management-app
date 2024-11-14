@@ -12,10 +12,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head />
-      <body className="min-h-screen flex flex-col pt-20"> {/* Add padding-top to move content below the fixed navbar */}
+      <body className="min-h-screen flex flex-col">
+        {/* Add padding-top to prevent the content from being hidden under the fixed navbar */}
         <NetworkStatus />
-        {pathname !== '/' && <Navbar />}
-        <main className="flex-grow">{children}</main> {/* Ensures main content area grows and pushes footer down */}
+        <Navbar />
+        <main className="flex-grow pt-20"> {/* Adjust padding-top to fit fixed navbar */}
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

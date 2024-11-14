@@ -12,10 +12,20 @@ export default function AuthPage() {
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
 
+  // Redirect to dashboard if user is already logged in
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      router.push('/dashboard'); // Redirect to dashboard if token exists
+      // Check if the token is valid (optional step)
+      axios
+        .get('/api/auth/validate-token', { headers: { Authorization: `Bearer ${token}` } })
+        .then(() => {
+          router.push('/dashboard'); // Redirect to dashboard if token is valid
+        })
+        .catch((err) => {
+          console.error('Token validation failed', err);
+          localStorage.removeItem('token'); // Remove invalid token
+        });
     }
   }, [router]);
 
@@ -50,17 +60,17 @@ export default function AuthPage() {
       router.push('/dashboard');
     } catch (err) {
       setErrorMessage('Registration failed');
-      console.error(err.response?.data);
+      console.error(err.response?.data); // More detailed error logging
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 py-10 px-4 md:px-0">
-      <div className="w-full max-w-sm sm:max-w-md">
-        <h1 className="text-4xl font-bold text-center text-blue-600 mb-6">
+      <div className="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl">
+        <h1 className="text-3xl sm:text-4xl font-bold text-center text-blue-600 mb-6">
           Contacts Management System
         </h1>
-        <p className="text-lg text-center mb-8">
+        <p className="text-lg sm:text-xl text-center mb-8">
           {isLogin ? 'Login to manage your contacts' : 'Create a new account to get started'}
         </p>
         

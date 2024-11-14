@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { AiOutlineLoading } from 'react-icons/ai'; // Import the spinner icon
 
 const ContactList = () => {
     const [contacts, setContacts] = useState([]);
@@ -11,15 +12,18 @@ const ContactList = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
+    const [loading, setLoading] = useState(false); // Add loading state
 
     useEffect(() => {
         fetchContacts();
     }, []);
 
     const fetchContacts = async () => {
+        setLoading(true); // Set loading to true when starting to fetch data
         const token = localStorage.getItem('token');
         if (!token) {
             setError('No token found, please log in.');
+            setLoading(false); // Stop loading if no token
             return;
         }
 
@@ -33,6 +37,8 @@ const ContactList = () => {
             setContacts(response.data);
         } catch (error) {
             setError(error.message || 'Failed to fetch contacts');
+        } finally {
+            setLoading(false); // Stop loading after fetch completes
         }
     };
 
@@ -109,7 +115,7 @@ const ContactList = () => {
             <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mt-6">
                 <h1 className="text-2xl font-bold my-4 text-center sm:text-left">Contact List</h1>
                 {error && <p className="text-red-500">{error}</p>}
-                
+
                 <input
                     type="text"
                     placeholder="Search by name or email"
@@ -119,42 +125,51 @@ const ContactList = () => {
                 />
                 
                 <div className="overflow-x-auto">
-                    {filteredContacts.length === 0 ? (
-                        <p className="text-center text-gray-500 mt-6">No contacts available</p>
+                    {loading ? (
+                        <div className="flex justify-center items-center">
+                            <AiOutlineLoading className="animate-spin text-blue-500" size={24} />
+                            <p className="ml-2 text-gray-500">Loading...</p>
+                        </div>
                     ) : (
-                        <table className="min-w-full bg-white border border-gray-300 mt-4">
-                            <thead>
-                                <tr>
-                                    <th className="border-b p-2 text-center text-sm md:text-base">Name</th>
-                                    <th className="border-b p-2 text-center text-sm md:text-base">Email</th>
-                                    <th className="border-b p-2 text-center text-sm md:text-base">Phone</th>
-                                    <th className="border-b p-2 text-center text-sm md:text-base">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {currentContacts.map(contact => (
-                                    <tr key={contact.id}>
-                                        <td className="border-b p-2 text-center text-sm">{contact.name}</td>
-                                        <td className="border-b p-2 text-center text-sm">{contact.email}</td>
-                                        <td className="border-b p-2 text-center text-sm">{contact.phone}</td>
-                                        <td className="border-b p-2 text-center">
-                                            <button
-                                                onClick={() => handleEdit(contact)}
-                                                className="text-blue-500 hover:underline text-sm md:text-base"
-                                            >
-                                                Edit
-                                            </button>
-                                            <button
-                                                onClick={() => handleDelete(contact.id)}
-                                                className="text-red-500 hover:underline ml-4 text-sm md:text-base"
-                                            >
-                                                Delete
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                        <>
+                            {filteredContacts.length === 0 ? (
+                                <p className="text-center text-gray-500 mt-6">No contacts available</p>
+                            ) : (
+                                <table className="min-w-full bg-white border border-gray-300 mt-4">
+                                    <thead>
+                                        <tr>
+                                            <th className="border-b p-2 text-center text-sm md:text-base">Name</th>
+                                            <th className="border-b p-2 text-center text-sm md:text-base">Email</th>
+                                            <th className="border-b p-2 text-center text-sm md:text-base">Phone</th>
+                                            <th className="border-b p-2 text-center text-sm md:text-base">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {currentContacts.map(contact => (
+                                            <tr key={contact.id}>
+                                                <td className="border-b p-2 text-center text-sm">{contact.name}</td>
+                                                <td className="border-b p-2 text-center text-sm">{contact.email}</td>
+                                                <td className="border-b p-2 text-center text-sm">{contact.phone}</td>
+                                                <td className="border-b p-2 text-center">
+                                                    <button
+                                                        onClick={() => handleEdit(contact)}
+                                                        className="text-blue-500 hover:underline text-sm md:text-base"
+                                                    >
+                                                        Edit
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDelete(contact.id)}
+                                                        className="text-red-500 hover:underline ml-4 text-sm md:text-base"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            )}
+                        </>
                     )}
                 </div>
 
