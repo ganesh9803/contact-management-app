@@ -13,6 +13,7 @@ const ContactList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
     const [loading, setLoading] = useState(false); // Add loading state
+    const [successMessage, setSuccessMessage] = useState(''); // State for success message
 
     useEffect(() => {
         fetchContacts();
@@ -78,13 +79,20 @@ const ContactList = () => {
             setError('No token found, please log in.');
             return;
         }
-      
+
         try {
             const response = await axios.delete('/api/contact-list', {
                 headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
                 data: { id },
             });
-            if (response.status === 200) fetchContacts();
+
+            if (response.status === 200) {
+                setSuccessMessage('Contact moved to trash'); // Set success message
+                setTimeout(() => {
+                    setSuccessMessage(''); // Clear the message after 3 seconds
+                }, 3000);
+                fetchContacts(); // Refresh the contacts list
+            }
         } catch (error) {
             setError('Failed to move contact to trash');
         }
@@ -115,6 +123,7 @@ const ContactList = () => {
             <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mt-6">
                 <h1 className="text-2xl font-bold my-4 text-center sm:text-left">Contact List</h1>
                 {error && <p className="text-red-500">{error}</p>}
+                {successMessage && <p className="text-green-500">{successMessage}</p>} {/* Display success message */}
 
                 <input
                     type="text"
