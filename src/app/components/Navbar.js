@@ -67,8 +67,10 @@ export default function Navbar() {
 
       {/* Profile Icon & Hamburger Menu for Mobile */}
       <div className='flex items-center gap-6'>
-        {/* Hamburger Menu Icon */}
-        <HiMenu onClick={() => setVisible(true)} className='w-6 h-6 text-white cursor-pointer sm:hidden' />
+        {/* Conditionally render Hamburger Menu only when not at '/' */}
+        {pathname !== '/' && (
+          <HiMenu onClick={() => setVisible(true)} className='w-6 h-6 text-white cursor-pointer sm:hidden' />
+        )}
       </div>
 
       {/* Sidebar for Mobile */}
